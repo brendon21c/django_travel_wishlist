@@ -45,3 +45,11 @@ def places_visited(request):
     visited = Place.objects.filter(visited = True)
 
     return render(request, 'travel_wishlist/visited.html', {'visited' : visited})
+
+def location_details(request, place):
+
+    location = get_object_or_404(Place , name = place)
+    print(location)
+
+
+    return render(request, 'travel_wishlist/location_details.html')

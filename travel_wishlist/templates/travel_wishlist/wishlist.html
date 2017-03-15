@@ -18,6 +18,7 @@
 
 <div>
 
+  <a href="{% url 'location_details' %}"> {{ place.name }}</a>
   <p>{{ place.name }}</p>
 
 <form method="POST" action="{% url 'place_is_visited' %}">
