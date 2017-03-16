@@ -46,10 +46,12 @@ def places_visited(request):
 
     return render(request, 'travel_wishlist/visited.html', {'visited' : visited})
 
-def location_details(request, place):
+def location_details(request, pk):
 
-    location = get_object_or_404(Place , name = place)
-    print(location)
+    location = get_object_or_404(Place, pk = pk)
+    location_name = location.name
+    print(location.place_notes)
+    print(location.visited)
 
 
-    return render(request, 'travel_wishlist/location_details.html')
+    return render(request, 'travel_wishlist/location_details.html', {'location_name' : location_name})
