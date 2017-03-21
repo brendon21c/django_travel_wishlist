@@ -19,13 +19,6 @@
 <div>
 
   <a href="{% url 'location_details' pk=place.pk %}"> {{ place.name }}</a>
-  <p>{{ place.name }}</p>
-
-<form method="POST" action="{% url 'place_is_visited' %}">
-  {% csrf_token %}
-  <input type="hidden" name="pk" value="{{ place.pk }}">
-  <button type="sumbit"> visited</button>
-</form>
 
 </div>
 

@@ -2,6 +2,23 @@
 {% block content %}
 
 
-<p> {{ location_name }}</p>
+<p> {{ location }}</p>
+
+{% if visited %}
+
+<p> Visited </p>
+<p> Location Notes: {{ visited.place_notes }} </p>
+
+{% else %}
+<form method="POST" action="{% url 'location_details' pk=pk %}">
+
+  {% csrf_token %}
+  {{ form }}
+
+  <button type="submit">Update Location</button>
+</form>
+
+{% endif %}
+
 
 {% endblock %}

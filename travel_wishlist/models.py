@@ -6,7 +6,7 @@ class Place(models.Model):
 
     name = models.CharField(max_length = 200)
     visited = models.BooleanField(default = False)
-    date_visited = models.DateTimeField(auto_now_add = True, blank = True)
+    date_visited = models.DateTimeField(auto_now_add = True, editable = True)
     place_notes = models.CharField(max_length = 500)
 
     def __str__(self):

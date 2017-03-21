@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.conf.urls import url
 from .models import Place
-from .forms import NewPlaceForm
+from .forms import *
 
 
 # Create your views here.
@@ -34,7 +34,7 @@ def place_list(request):
             return redirect('place_list')
 
 
-    places = Place.objects.filter(visited = False)
+    places = Place.objects.all()
     form = NewPlaceForm()
 
     return render(request, 'travel_wishlist/wishlist.html', {'places' : places, 'form' : form})
@@ -50,8 +50,47 @@ def location_details(request, pk):
 
     location = get_object_or_404(Place, pk = pk)
     location_name = location.name
-    print(location.place_notes)
-    print(location.visited)
+    location_pk = location.pk
+    location_visited = location.visited
+
+    if request.method == 'POST':
+
+        form = UpdatePlaceForm(request.POST)
+        place = form.save(commit = False)
+
+        if form.is_valid():
+
+            data = form.cleaned_data
+            notes = data['place_notes']
+            visited = data['visited']
+
+            if visited:
+
+                location.place_notes = notes
+                location.visited = visited
+
+                location.save()
+
+                return redirect('place_list')
+
+            else:
+                
+                location.place_notes = notes
+
+                location.save()
+
+                return redirect('place_list')
 
 
-    return render(request, 'travel_wishlist/location_details.html', {'location_name' : location_name})
+
+    if location_visited == True:
+
+        place = location
+
+        return render(request, 'travel_wishlist/location_details.html', {'location' : location_name, 'visited' : place})
+
+    else:
+
+        form = UpdatePlaceForm()
+
+        return render(request, 'travel_wishlist/location_details.html', {'location' : location_name, 'pk' : location_pk, 'form' : form})
